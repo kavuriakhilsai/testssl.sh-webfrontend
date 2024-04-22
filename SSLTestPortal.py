@@ -23,9 +23,19 @@ import socket
 application = Flask(__name__)
 
 ### Configuration ###
-logDir = os.path.join(os.path.dirname(__file__), "log")
-resultDirJSON = os.path.join(os.path.dirname(__file__), "result/json")
-resultDirHTML = os.path.join(os.path.dirname(__file__), "result/html")
+# Get the directory of the Flask application file
+app_dir = os.path.dirname(__file__)
+
+# Define relative paths for log, JSON, and HTML result directories
+logDir = os.path.join(app_dir, "log")
+resultDirJSON = os.path.join(app_dir, "result", "json")
+resultDirHTML = os.path.join(app_dir, "result", "html")
+
+# Create the directories if they don't exist
+os.makedirs(logDir, exist_ok=True)
+os.makedirs(resultDirJSON, exist_ok=True)
+os.makedirs(resultDirHTML, exist_ok=True)
+
 checkCmd = "testssl.sh/testssl.sh"
 checkArgs = ["--quiet", "--logfile=" + logDir, "--jsonfile=" + resultDirJSON]
 checkTimeout = 300
