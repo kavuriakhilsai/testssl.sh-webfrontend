@@ -25,7 +25,7 @@ application = Flask(__name__)
 ### Configuration ###
 logDir = os.path.join(os.path.dirname(__file__), "log")
 resultDirJSON = os.path.join(os.path.dirname(__file__), "result/json")
-resultDirHTML = os.path.join(app_dir, "result", "html")
+resultDirHTML = os.path.join(os.path.dirname(__file__), "result/html")
 checkCmd = "testssl.sh/testssl.sh"
 checkArgs = ["--quiet", "--logfile=" + logDir, "--jsonfile=" + resultDirJSON]
 checkTimeout = 300
