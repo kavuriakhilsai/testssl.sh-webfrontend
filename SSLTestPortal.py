@@ -23,9 +23,9 @@ import socket
 application = Flask(__name__)
 
 ### Configuration ###
-logDir = "log"
-resultDirJSON = "result/json"
-resultDirHTML = "result/html"
+logDir = os.path.join(os.path.dirname(__file__), "log")
+resultDirJSON = os.path.join(os.path.dirname(__file__), "result/json")
+##resultDirHTML = "result/html"
 checkCmd = "testssl.sh/testssl.sh"
 checkArgs = ["--quiet", "--logfile=" + logDir, "--jsonfile=" + resultDirJSON]
 checkTimeout = 300
