@@ -36,10 +36,12 @@ def color_text(severity, text):
 
 # Function to sanitize text for XML compatibility
 def sanitize_text(text):
-    # Filter out characters not allowed in XML
+    # Remove specific characters
+    text = text.replace('\xa0', ' ')  # Replace non-breaking space with space
+    text = text.replace('\u200b', '')  # Remove zero-width space
+    # Use the previous regular expression for other characters
     regex = re.compile(r'[^\x09\x0a\x20-\uD7FF\xE000-\xFFFD]')
     sanitized_text = regex.sub('', text)
-    sanitized_text = text.replace('\0', '')
     return sanitized_text
 
 
