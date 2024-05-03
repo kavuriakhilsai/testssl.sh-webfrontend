@@ -1,4 +1,5 @@
-import osimport json
+import os
+import json
 from docx import Document
 from colorama import Fore, Style
 
