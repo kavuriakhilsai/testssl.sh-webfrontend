@@ -16,7 +16,7 @@ output_file_path = os.path.join(app_dir, "output.docx")
 # Function to filter severity levels
 def filter_severity(data):
     severity = data.get("severity", "").upper()
-    return severity in ["MEDIUM", "WARN"]
+    return severity in ["HIGH","CRITICAL","MEDIUM", "WARN"]
 
 # Function to create color-coded text
 def color_text(severity, text):
