@@ -2,7 +2,7 @@ import os
 import json
 from docx import Document
 from colorama import Fore, Style
-import string
+import re
 
 # Get the directory of the Flask application file
 app_dir = os.path.dirname(__file__)
@@ -13,10 +13,12 @@ result_folder_path = os.path.join(app_dir, "result", "json")
 # Path to output Word file
 output_file_path = os.path.join(app_dir, "output.docx")
 
+
 # Function to filter severity levels
 def filter_severity(data):
     severity = data.get("severity", "").upper()
-    return severity in ["HIGH","CRITICAL","MEDIUM", "WARN"]
+    return severity in ["HIGH", "CRITICAL", "MEDIUM", "WARN"]
+
 
 # Function to create color-coded text
 def color_text(severity, text):
@@ -31,11 +33,14 @@ def color_text(severity, text):
     else:
         return text
 
+
 # Function to sanitize text for XML compatibility
 def sanitize_text(text):
-    # Filter out non-printable ASCII and non-ASCII characters
-    sanitized_text = "".join(char for char in text if char.isprintable() and ord(char) < 128)
+    # Filter out characters not allowed in XML
+    regex = re.compile(r'[^\x09\x0a\x20-\uD7FF\xE000-\xFFFD]')
+    sanitized_text = regex.sub('', text)
     return sanitized_text
+
 
 # Create a new Word document
 doc = Document()
