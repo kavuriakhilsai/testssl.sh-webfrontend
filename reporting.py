@@ -33,14 +33,10 @@ def color_text(severity, text):
 
 # Function to sanitize text for XML compatibility
 def sanitize_text(text):
-    # Filter out non-printable characters
-    printable = set(string.printable)
-    text = ''.join(filter(lambda x: x in printable, text))
-    
-    # Replace non-ASCII characters with a placeholder
-    text = ''.join([c if ord(c) < 128 else '?' for c in text])
-    
-    return text
+    # Filter out non-printable ASCII and non-ASCII characters
+    sanitized_text = "".join(char for char in text if char.isprintable() and ord(char) < 128)
+    return sanitized_text
+
 
 # Create a new Word document
 doc = Document()
