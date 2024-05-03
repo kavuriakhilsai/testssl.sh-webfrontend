@@ -34,7 +34,8 @@ def color_text(severity, text):
 # Function to sanitize text for XML compatibility
 def sanitize_text(text):
     printable = set(string.printable)
-    return ''.join(filter(lambda x: x in printable, text))
+    # Encode the text to ASCII and ignore errors
+    return ''.join(filter(lambda x: x in printable, text.encode("ascii", errors="ignore").decode()))
 
 # Create a new Word document
 doc = Document()
