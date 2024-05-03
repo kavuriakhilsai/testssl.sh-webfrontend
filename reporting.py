@@ -39,6 +39,7 @@ def sanitize_text(text):
     # Filter out characters not allowed in XML
     regex = re.compile(r'[^\x09\x0a\x20-\uD7FF\xE000-\xFFFD]')
     sanitized_text = regex.sub('', text)
+    sanitized_text = text.replace('\0', '')
     return sanitized_text
 
 
