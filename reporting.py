@@ -2,6 +2,7 @@ import os
 import json
 from docx import Document
 from colorama import Fore, Style
+import string
 
 # Get the directory of the Flask application file
 app_dir = os.path.dirname(__file__)
@@ -30,6 +31,11 @@ def color_text(severity, text):
     else:
         return text
 
+# Function to sanitize text for XML compatibility
+def sanitize_text(text):
+    printable = set(string.printable)
+    return ''.join(filter(lambda x: x in printable, text))
+
 # Create a new Word document
 doc = Document()
 
@@ -45,7 +51,8 @@ for filename in os.listdir(result_folder_path):
                         # Add severity and finding to the Word document
                         severity = data.get("severity", "Unknown")
                         finding = data.get("finding", "No finding")
-                        doc.add_paragraph(f"{severity}: {color_text(severity, finding)}")
+                        sanitized_finding = sanitize_text(finding)
+                        doc.add_paragraph(f"{severity}: {color_text(severity, sanitized_finding)}")
             except json.JSONDecodeError:
                 print(f"Error reading JSON from file: {filename}")
 
