@@ -37,7 +37,6 @@ def sanitize_text(text):
     sanitized_text = "".join(char for char in text if char.isprintable() and ord(char) < 128)
     return sanitized_text
 
-
 # Create a new Word document
 doc = Document()
 
