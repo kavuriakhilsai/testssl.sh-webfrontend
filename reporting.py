@@ -3,13 +3,13 @@ import json
 from docx import Document
 from colorama import Fore, Style
 
-#Getting the directory of the Flask Application File
+# Get the directory of the Flask application file
 app_dir = os.path.dirname(__file__)
 
-#Defining the path to the JSON folder
+# Define the path to the JSON result folder
 result_folder_path = os.path.join(app_dir, "result", "json")
 
-#Output word file path
+# Path to output Word file
 output_file_path = os.path.join(app_dir, "output.docx")
 
 # Function to filter severity levels
@@ -29,7 +29,8 @@ def color_text(severity, text):
         return f"{Fore.BLUE}{text}{Style.RESET_ALL}"
     else:
         return text
-    # Create a new Word document
+
+# Create a new Word document
 doc = Document()
 
 # Loop through each file in the JSON result folder
@@ -38,12 +39,13 @@ for filename in os.listdir(result_folder_path):
         file_path = os.path.join(result_folder_path, filename)
         with open(file_path, "r") as file:
             try:
-                data = json.load(file)
-                if filter_severity(data):
-                    # Add severity and finding to the Word document
-                    severity = data.get("severity", "Unknown")
-                    finding = data.get("finding", "No finding")
-                    doc.add_paragraph(f"{severity}: {color_text(severity, finding)}")
+                data_list = json.load(file)
+                for data in data_list:
+                    if filter_severity(data):
+                        # Add severity and finding to the Word document
+                        severity = data.get("severity", "Unknown")
+                        finding = data.get("finding", "No finding")
+                        doc.add_paragraph(f"{severity}: {color_text(severity, finding)}")
             except json.JSONDecodeError:
                 print(f"Error reading JSON from file: {filename}")
 
