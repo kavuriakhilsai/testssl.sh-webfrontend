@@ -21,7 +21,7 @@ if json_file_path is None:
     exit()
 
 # Path to CSV folder
-csv_folder_path = os.path.join(app_dir, "output.csv")
+csv_folder_path = os.path.join(app_dir, "output_csv")
 
 #Creating CSV folder if it doesnt exist
 os.makedirs(csv_folder_path, exist_ok = True)
