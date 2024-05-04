@@ -1,20 +1,15 @@
+import os
 import json
 from docx import Document
 from docx.shared import RGB, Inches
 import matplotlib.pyplot as plt
 # Import libraries for the chosen API (refer to API documentation)
 
-def generate_report(data_file, output_file, api_key, api_url):
+def generate_report(data_file, output_file):
   """
   Generates a Word document report on SSL/TLS vulnerabilities from a JSON file,
   potentially leveraging AI for vulnerability recommendations.
-
-  Args:
-      data_file (str): Path to the JSON file containing SSL/TLS data.
-      output_file (str): Path to save the generated Word document report.
-      api_key (str): API key for the chosen vulnerability analysis API (if applicable).
-      api_url (str): Base URL for the chosen vulnerability analysis API (if applicable).
-  """
+"""
 
   # ... (Rest of the script logic for reading JSON data, filtering, and initial report structure)
 
@@ -41,10 +36,11 @@ def generate_report(data_file, output_file, api_key, api_url):
   # ... (Rest of the script logic for charts and saving the document)
 
 # Example usage (replace placeholders with your API details)
+app_dir = os.path.dirname(__file__)
+data_file = os.path.join(app_dir, "result", "json")
+output_file = os.path.join(app_dir, "output.docx")
 data_file = "your_data.json"
 output_file = "security_report.docx"
-api_key = "YOUR_API_KEY"  # Replace with your API key (if applicable)
-api_url = "https://YOUR_API_URL/vulnerability"  # Replace with your API base URL (if applicable)
-generate_report(data_file, output_file, api_key, api_url)
+generate_report(data_file, output_file)
 
 print(f"SSL/TLS Security Report generated and saved to: {output_file}")
