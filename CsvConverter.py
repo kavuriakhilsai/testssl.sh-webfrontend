@@ -41,7 +41,7 @@ with open(csv_file_path, "w", newline= '') as csv_file:
   writer = csv.DictWriter(csv_file, fieldnames = fieldnames)
   writer.writeheader()
   # Processing each item in the JSON data
-    for item in data:
+for item in data:
     # Checking if the "cve" or "CWE" keys are present and provide default values if not available
     cve = item.get("cve","N/A")
     cwe = item.get("cwe","N/A")
