@@ -57,4 +57,4 @@ with open(csv_file_path, 'w', newline='') as csv_file:
         }
         writer.writerow(row)
 
-print(f"CSV file successfully created at: {output_csv_file_path}")
+print(f"CSV file successfully created at: {csv_file_path}")
