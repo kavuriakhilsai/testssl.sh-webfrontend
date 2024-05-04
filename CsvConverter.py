@@ -6,13 +6,13 @@ import csv
 app_dir = os.path.dirname(__file__)
 
 # JSON file Path
-json_file_path = os.path.join(app_dir, "result", "json")
+json_path = os.path.join(app_dir, "result", "json")
 
 # Find the JSON file in the directory
 json_file_path = None
-for filename in os.listdir(json_folder_path):
+for filename in os.listdir(json_path):
     if filename.endswith(".json"):
-        json_file_path = os.path.join(json_folder_path, filename)
+        json_file_path = os.path.join(json_path, filename)
         break
 
 # Check if a JSON file was found
