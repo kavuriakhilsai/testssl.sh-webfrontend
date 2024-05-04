@@ -2,11 +2,30 @@ import json
 import os
 import csv
 
+#Get the directory of the Flask application file
+app_dir = os.path.dirname(__file__)
+
+# Define the path to the JSON result folder
+result_folder_path = os.path.join(app_dir, "result", "json")
+
 # JSON file Path
-json_file_path = ""
+json_file_path = os.path.join(app_dir, "result", "json")
+
+# Find the JSON file in the directory
+json_file_path = None
+for filename in os.listdir(json_folder_path):
+    if filename.endswith(".json"):
+        json_file_path = os.path.join(json_folder_path, filename)
+        break
+
+# Check if a JSON file was found
+if json_file_path is None:
+    print("No JSON file found in the directory.")
+    exit()
 
 # Path to CSV folder
-csv_folder_path = ""
+csv_folder_path = os.path.join(app_dir, "output.csv")
+
 #Creating CSV folder if it doesnt exist
 os.makedirs(csv_ folder_path, exist_ok = True)
 
