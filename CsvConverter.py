@@ -37,7 +37,7 @@ with open(json_file_path, "r") as json_file:
 fieldnames = ["id", "ip", "port", "severity","cve","cwe","finding"]
 
 # Create the CSV file and write the header
-with open(output_csv_file_path, 'w', newline='') as csv_file:
+with open(csv_file_path, 'w', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
 
