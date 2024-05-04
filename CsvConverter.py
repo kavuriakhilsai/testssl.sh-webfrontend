@@ -37,12 +37,14 @@ with open(json_file_path, "r") as json_file:
 fieldnames = ["id", "ip", "port", "severity","cve","cwe","finding"]
 
 # Open the CSV file and write the data
-with open(csv_file_path, "w", newline="") as csv_file:
+with open(csv_file_path, "w", newline= '') as csv_file:
   writer = csv.DictWriter(csv_file, fieldnames = fieldnames)
   writer.writeheader()
-  for item in data:
+  # Processing each item in the JSON data
+    for item in data:
     # Checking if the "cve" or "CWE" keys are present and provide default values if not available
     cve = item.get("cve","N/A")
     cwe = item.get("cwe","N/A")
     row = {"id":item["id"],"ip":item["ip"],"port":item["port"],"severity":item["severity"],"finding":item["finding"],"cve":cve, "cwe":cwe}
   writer.writerow(row)
+print(f"CSV file successfully created at: {output_csv_file_path}")
