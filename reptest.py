@@ -11,4 +11,4 @@ severity_ratios = severity_counts / total_severities
 
 print(severity_counts)
 print(total_severities)
-print(severity_ratio)
+print(severity_ratios)
