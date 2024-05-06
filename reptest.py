@@ -9,14 +9,6 @@ severity_counts = df['severity'].value_counts()
 total_severities = severity_counts.sum()
 severity_ratios = severity_counts / total_severities
 
-# Create a bar chart
-plt.figure(figsize=(10, 6))
-severity_ratios.plot(kind='bar', color='skyblue')
-plt.title('Severity Ratios')
-plt.xlabel('Severity')
-plt.ylabel('Ratio')
-plt.xticks(rotation=45)
-plt.tight_layout()
-
-# Show the plot
-plt.show()
+print(severity_counts)
+print(total_severities)
+print(severity_ration)
