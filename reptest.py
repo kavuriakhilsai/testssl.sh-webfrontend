@@ -10,5 +10,6 @@ total_severities = severity_counts.sum()
 severity_ratios = severity_counts / total_severities
 
 print(severity_counts)
-warn_severity = df[df['severity'] == 'MEDIUM']
-print(warn_severity)
+warn_severity = df[df['severity'] == 'WARN']
+medium_severity = df[df['severity'] == 'MEDIUM']
+print(warn_severity, medium_severity)
