@@ -255,7 +255,7 @@ data_cells[0]._element.get_or_add_tcPr().append(OxmlElement('w:vMerge'))
 for i, issues in enumerate(tls_protocol_issues, 1):
     item = next((item for item in json_data if item['id'] == issue_id_map[issues]), None)
     if item:
-        finding = item['finding'].split(',')
+        findings = item['finding'].split(',')
         severity = item['severity']
         # Determine the value based on the findings
         if any(finding.strip() in ["not supported", "vulnerable","not vulnerable, no gzip/deflate/compress/br HTTP compression  - only supplied '/' tested"] for finding in findings):
