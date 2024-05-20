@@ -55,15 +55,19 @@ header_run.font.size = Pt(12)
 header_run.font.color.rgb = RGBColor(255, 255, 255)
 set_cell_color(header_cells[0], '4F81BD')
 
-# Add second header row with URL
+# Find the 'ip' value for 'cert_commonName'
+common_name_item = next((item for item in json_data if item['id'] == 'cert_commonName'), None)
+ip_value = common_name_item['ip'] if common_name_item else 'Not Available'
+
+# Add second header row with the dynamically found IP value
 url_cells = table.add_row().cells
 url_cells[0].merge(url_cells[1])
-url_run = url_cells[0].paragraphs[0].add_run('www.interceptica.com:443 (34.149.87.45)')
+url_run = url_cells[0].paragraphs[0].add_run(ip_value)
 url_cells[0].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 url_run.bold = True
 url_run.font.size = Pt(12)
 url_run.font.color.rgb = RGBColor(255, 255, 255)
-set_cell_color(url_cells[0], '95B3D7')
+set_cell_color(url_cells[0], '4F81BD')
 
 # Define the row color mappings for severity
 severity_color_map = {
@@ -108,6 +112,9 @@ for idx, (key, json_id) in enumerate(key_to_id_map.items()):
     if item:
         value = item['finding']
         severity = item['severity']
+        # Replacing -- value with N/A
+        if value == '--':
+            value = 'N/A'
     else:
         value = 'Not Available'
         severity = 'INFO'  # Default to INFO if not found
@@ -117,7 +124,6 @@ for idx, (key, json_id) in enumerate(key_to_id_map.items()):
 
     # Set background color based on severity
     bg_color = severity_color_map.get(severity, "FFFFFF")
-    set_cell_color(key_cell, bg_color)
     set_cell_color(value_cell, bg_color)
 
 # Save the document
