@@ -85,7 +85,7 @@ else:
 # Add second header row with the dynamically found IP value
 url_cells = table.add_row().cells
 url_cells[0].merge(url_cells[1])
-url_run = url_cells[0].paragraphs[0].add_run(ip__port_value)
+url_run = url_cells[0].paragraphs[0].add_run(ip_port_value)
 url_cells[0].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
 url_run.bold = True
 url_run.font.size = Pt(12)
