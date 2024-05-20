@@ -1,4 +1,5 @@
 import json
+import os
 from docx import Document
 from docx.shared import Pt, RGBColor
 from docx.oxml.ns import qn
@@ -25,8 +26,24 @@ def set_cell_color(cell, color):
     cell_shading.set(qn('w:fill'), color)
     cell_properties.append(cell_shading)
 
+#Get the directory of the Flask application file
+app_dir = os.path.dirname(__file__)
+
+# JSON file Path
+json_path = os.path.join(app_dir, "result", "json")
+
+# Find the JSON file in the directory
+json_file_path = None
+for filename in os.listdir(json_path):
+    if filename.endswith(".json"):
+        json_file_path = os.path.join(json_path, filename)
+        break
+
+# Check if a JSON file was found
+if json_file_path is None:
+    print("No JSON file found in the directory.")
+    exit()
 # Load JSON data from file
-json_file_path = '/home/ubuntu/TestSSL/testssl.sh-webfrontend/result/json/interceptica.com_p443-20240503-0552.json'
 with open(json_file_path, 'r') as file:
     json_data = json.load(file)
 
