@@ -207,7 +207,7 @@ for i, protocol in enumerate(tls_protocols, 1):
     cell_run.font.size = Pt(10)
     set_cell_color(data_cells[i], bg_color)
 
-# Add heading for TLS/SSL Protocol Support
+# Add heading for TLS/SSL Protocol Issues
 heading = doc.add_heading(level=1)
 run = heading.add_run('Appendix A.3 TLS/SSL Protocol Issues')
 run.bold = True
@@ -253,7 +253,7 @@ for i, issues in enumerate(tls_protocol_issues, 1):
 data_cells = table.add_row().cells
 data_cells[0]._element.get_or_add_tcPr().append(OxmlElement('w:vMerge'))
 for i, issues in enumerate(tls_protocol_issues, 1):
-    item = next((item for item in json_data if item['id'] == issue_id_map[issue]), None)
+    item = next((item for item in json_data if item['id'] == issue_id_map[issues]), None)
     if item:
         finding = item['finding'].split(',')
         severity = item['severity']
