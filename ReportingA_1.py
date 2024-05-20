@@ -106,7 +106,7 @@ severity_color_map = {
 key_to_id_map = {
     "Serial Number": "cert_serialNumber",
     "Subject": "cert_commonName",
-    "Issuer": "cert_caIssuerssubject",
+    "Issuer": "cert_caIssuers",
     "Certificate Chain": "cert_trust",
     "Valid From": "cert_notBefore",
     "Valid Until": "cert_notAfter",
