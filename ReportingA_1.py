@@ -113,7 +113,9 @@ key_to_id_map = {
     "Signature Algorithm": "cert_signatureAlgorithm",
     "Public Key Size": "cert_keySize",
     "DNS Certificate Authority Authorisation Record": "DNS_CAArecord",
+    #Amend Host Name Validation
     "Hostname Validation": "cert_hostNameValidation",
+    #Amend Self-signed
     "Self-Signed": "cert_selfSigned",
     "OCSP URL": "cert_ocspURL",
     "Subject Alternative Name": "cert_subjectAltName",
@@ -193,6 +195,70 @@ for i, protocol in enumerate(tls_protocols, 1):
         finding = item['finding']
         severity = item['severity']
         if finding == "offered" or finding == "offered with final":
+            value = "Yes"
+        else:
+            value = "No"
+        # Set background color based on severity
+        bg_color = severity_color_map.get(severity, "FFFFFF")
+    else:
+        value = "Not Available"
+        bg_color = "FFFFFF"
+    cell_run = data_cells[i].paragraphs[0].add_run(value)
+    cell_run.font.size = Pt(10)
+    set_cell_color(data_cells[i], bg_color)
+
+# Add heading for TLS/SSL Protocol Support
+heading = doc.add_heading(level=1)
+run = heading.add_run('Appendix A.3 TLS/SSL Protocol Issues')
+run.bold = True
+run.font.size = Pt(14)
+heading.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+# Define the mappings for TLS/SSL Protocol Issues
+tls_protocol_issues = ["Client-Initiated Renegotation",
+                 "Secure Renegotiation", 
+                 "OpenSSL CCS Injection(CVE-2014-0224)",
+                 "POODLE (SSL 3) (CVE-2014-3566)",
+                 "ROBOT", "BREACH (CVE-2013-3587)","HTTP Strict Transport Security (HSTS)","HSTS PreLoad"]
+issue_id_map = {
+    #Amend Client-Initiated Renegotation
+    "Client-Initiated Renegotation": "TLS1_3",
+    "Secure Renegotiation": "secure_renego",
+    "OpenSSL CCS Injection(CVE-2014-0224)": "CCS",
+    "POODLE (SSL 3) (CVE-2014-3566)": "POODLE_SSL",
+    "ROBOT": "ROBOT",
+    "BREACH (CVE-2013-3587)": "BREACH",
+    # Amend HSTS 
+    "HTTP Strict Transport Security (HSTS)": "RC4",
+    "HSTS PreLoad": "HSTS_preload"
+}
+
+# Add a table for TLS/SSL Protocol Support
+table = doc.add_table(rows=0, cols=len(tls_protocol_issues) + 1)
+table.alignment = WD_TABLE_ALIGNMENT.CENTER
+table.style = 'Table Grid'
+
+# Add header row for protocols
+header_cells = table.add_row().cells
+header_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
+for i, issues in enumerate(tls_protocol_issues, 1):
+    header_run = header_cells[i].paragraphs[0].add_run(issues)
+    header_cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+    header_run.bold = True
+    header_run.font.size = Pt(12)
+    header_run.font.color.rgb = RGBColor(255, 255, 255)
+    set_cell_color(header_cells[i], '4F81BD')
+
+# Add data row for protocol support
+data_cells = table.add_row().cells
+data_cells[0]._element.get_or_add_tcPr().append(OxmlElement('w:vMerge'))
+for i, issues in enumerate(tls_protocol_issues, 1):
+    item = next((item for item in json_data if item['id'] == issue_id_map[issue]), None)
+    if item:
+        finding = item['finding'].split(',')
+        severity = item['severity']
+        # Determine the value based on the findings
+        if any(finding.strip() in ["not supported", "vulnerable","not vulnerable, no gzip/deflate/compress/br HTTP compression  - only supplied '/' tested"] for finding in findings):
             value = "Yes"
         else:
             value = "No"
