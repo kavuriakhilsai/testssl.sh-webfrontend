@@ -65,22 +65,32 @@ url_run.font.size = Pt(12)
 url_run.font.color.rgb = RGBColor(255, 255, 255)
 set_cell_color(url_cells[0], '95B3D7')
 
-# Define the row color mappings (alternative colors)
-row_colors = ['D9EAD3', 'EAD1DC', 'F4CCCC', 'FFF2CC', 'C9DAF8']
+# Define the row color mappings for severity
+severity_color_map = {
+    "OK": "D9EAD3",  # Green
+    "INFO": "FFFFFF",  # Plain White
+    "LOW": "FFF2CC",  # Yellow
+    "Medium": "FFF2CC",  # Yellow
+    "Warn": "F4CCCC"  # Red
+}
 
 # Define the mappings of the keys to search in the JSON file
 key_to_id_map = {
     "Serial Number": "cert_serialNumber",
     "Subject": "cert_commonName",
-    "Issuer": "cert_issuer",
-    "Certificate Chain": "cert_chain_of_trust",
-    "Valid From": "cert_validFrom",
-    "Valid Until": "cert_validTo",
+    "Issuer": "cert_caIssuerssubject",
+    "Certificate Chain": "cert_trust",
+    "Valid From": "cert_notBefore",
+    "Valid Until": "cert_notAfter",
     "Signature Algorithm": "cert_signatureAlgorithm",
     "Public Key Size": "cert_keySize",
-    "DNS Certificate Authority Authorisation Record": "cert_dane",
+    "DNS Certificate Authority Authorisation Record": "DNS_CAArecord",
     "Hostname Validation": "cert_hostNameValidation",
-    "Self-Signed": "cert_selfSigned"
+    "Self-Signed": "cert_selfSigned",
+    "OCSP URL": "cert_ocspURL",
+    "Subject Alternative Name": "cert_subjectAltName",
+    "OCSP Stapling": "OCSP_stapling",
+    "OCSP Must Staple Extension": "cert_mustStapleExtension"
 }
 
 # Add the JSON data to the table
@@ -93,14 +103,22 @@ for idx, (key, json_id) in enumerate(key_to_id_map.items()):
     key_run.font.size = Pt(10)
     key_run.bold = True
     
-    # Find the corresponding value for the given id in the JSON data
-    value = next((item['finding'] for item in json_data if item['id'] == json_id), 'Not Available')
+    # Find the corresponding value and severity for the given id in the JSON data
+    item = next((item for item in json_data if item['id'] == json_id), None)
+    if item:
+        value = item['finding']
+        severity = item['severity']
+    else:
+        value = 'Not Available'
+        severity = 'INFO'  # Default to INFO if not found
+
     value_run = value_cell.paragraphs[0].add_run(value)
     value_run.font.size = Pt(10)
 
-    # Set background color for each row alternatively
-    set_cell_color(key_cell, row_colors[idx % len(row_colors)])
-    set_cell_color(value_cell, row_colors[idx % len(row_colors)])
+    # Set background color based on severity
+    bg_color = severity_color_map.get(severity, "FFFFFF")
+    set_cell_color(key_cell, bg_color)
+    set_cell_color(value_cell, bg_color)
 
 # Save the document
 doc.save('Certificate_Details_Report.docx')
