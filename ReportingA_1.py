@@ -175,7 +175,7 @@ table.style = 'Table Grid'
 
 # Add header row for protocols
 header_cells = table.add_row().cells
-header_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
+header_cells[0].paragraphs[0].add_run(ip_port_value) = True
 for i, protocol in enumerate(tls_protocols, 1):
     header_run = header_cells[i].paragraphs[0].add_run(protocol)
     header_cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -183,19 +183,10 @@ for i, protocol in enumerate(tls_protocols, 1):
     header_run.font.size = Pt(12)
     header_run.font.color.rgb = RGBColor(255, 255, 255)
     set_cell_color(header_cells[i], '4F81BD')
-# Add Color map for Protocol
-severity_color_map_protocol = {
-    "OK": "D9EAD3",  # Green
-    "INFO": "D9EAD3",  # Green
-    "LOW": "FFF2CC",  # Yellow
-    "Medium": "FFF2CC",  # Yellow
-    "Warn": "FFF2CC",  # Yellow
-    "Critical": "F4CCCC"  # Red
-}
+
 # Add data row for protocol support
 data_cells = table.add_row().cells
-data_cells[0].merge(data_cells[-1])
-data_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
+data_cells[0]._element.get_or_add_tcPr().append(OxmlElement('w:vMerge'))
 for i, protocol in enumerate(tls_protocols, 1):
     item = next((item for item in json_data if item['id'] == protocol_id_map[protocol]), None)
     if item:
@@ -206,10 +197,10 @@ for i, protocol in enumerate(tls_protocols, 1):
         else:
             value = "No"
         # Set background color based on severity
-        bg_color_protocol = severity_color_map_protocol.get(severity, "FFFFFF")
+        bg_color = severity_color_map.get(severity, "FFFFFF")
     else:
         value = "Not Available"
-        bg_color_protocol = "FFFFFF"
+        bg_color = "FFFFFF"
     cell_run = data_cells[i].paragraphs[0].add_run(value)
     cell_run.font.size = Pt(10)
     set_cell_color(data_cells[i], bg_color)
