@@ -94,11 +94,11 @@ set_cell_color(url_cells[0], '4F81BD')
 
 # Define the row color mappings for severity
 severity_color_map = {
-    "OK": "FFFFFF",  # Plain White
+    "OK": "D9EAD3",  # Green
     "INFO": "FFFFFF",  # Plain White
-    "LOW": "D9EAD3",  # Green
-    "MEDIUM": "FFF2CC",  # Yellow
-    "WARN": "F4CCCC",  # Yellow
+    "LOW": "FFCC99",  # Unknown Color
+    "MEDIUM": "FFCC33",  # Yellow
+    "WARN": "FFCC33",  # Yellow
     "CRITICAL": "F4CCCC"  # Red
 }
 
