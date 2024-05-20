@@ -155,7 +155,7 @@ heading = doc.add_heading(level=1)
 run = heading.add_run('Appendix A.2 TLS/SSL Protocol Support')
 run.bold = True
 run.font.size = Pt(14)
-heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+heading.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
 # Define the mappings for TLS/SSL Protocol Support
 tls_protocols = ["TLS 1.3", "TLS 1.2", "TLS 1.1", "TLS 1.0", "SSL 3.0", "SSL 2.0"]
@@ -194,6 +194,7 @@ severity_color_map_protocol = {
 }
 # Add data row for protocol support
 data_cells = table.add_row().cells
+data_cells[0].merge(data_cells[-1])
 data_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
 for i, protocol in enumerate(tls_protocols, 1):
     item = next((item for item in json_data if item['id'] == protocol_id_map[protocol]), None)
@@ -205,10 +206,10 @@ for i, protocol in enumerate(tls_protocols, 1):
         else:
             value = "No"
         # Set background color based on severity
-        bg_color = severity_color_map_protocol.get(severity, "FFFFFF")
+        bg_color_protocol = severity_color_map_protocol.get(severity, "FFFFFF")
     else:
         value = "Not Available"
-        bg_color = "FFFFFF"
+        bg_color_protocol = "FFFFFF"
     cell_run = data_cells[i].paragraphs[0].add_run(value)
     cell_run.font.size = Pt(10)
     set_cell_color(data_cells[i], bg_color)
