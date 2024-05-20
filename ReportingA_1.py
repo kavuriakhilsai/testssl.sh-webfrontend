@@ -183,7 +183,15 @@ for i, protocol in enumerate(tls_protocols, 1):
     header_run.font.size = Pt(12)
     header_run.font.color.rgb = RGBColor(255, 255, 255)
     set_cell_color(header_cells[i], '4F81BD')
-
+# Add Color map for Protocol
+severity_color_map_protocol = {
+    "OK": "D9EAD3",  # Green
+    "INFO": "D9EAD3",  # Green
+    "LOW": "FFF2CC",  # Yellow
+    "Medium": "FFF2CC",  # Yellow
+    "Warn": "FFF2CC",  # Yellow
+    "Critical": "F4CCCC"  # Red
+}
 # Add data row for protocol support
 data_cells = table.add_row().cells
 data_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
@@ -192,12 +200,12 @@ for i, protocol in enumerate(tls_protocols, 1):
     if item:
         finding = item['finding']
         severity = item['severity']
-        if finding == "offered":
+        if finding == "offered" or finding == "offered with final":
             value = "Yes"
         else:
             value = "No"
         # Set background color based on severity
-        bg_color = severity_color_map.get(severity, "FFFFFF")
+        bg_color = severity_color_map_protocol.get(severity, "FFFFFF")
     else:
         value = "Not Available"
         bg_color = "FFFFFF"
