@@ -175,7 +175,7 @@ table.style = 'Table Grid'
 
 # Add header row for protocols
 header_cells = table.add_row().cells
-header_cells[0].paragraphs[0].add_run(ip_port_value) = True
+header_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
 for i, protocol in enumerate(tls_protocols, 1):
     header_run = header_cells[i].paragraphs[0].add_run(protocol)
     header_cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
