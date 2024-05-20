@@ -150,5 +150,61 @@ for idx, (key, json_id) in enumerate(key_to_id_map.items()):
     bg_color = severity_color_map.get(severity, "FFFFFF")
     set_cell_color(value_cell, bg_color)
 
+# Add heading for TLS/SSL Protocol Support
+heading = doc.add_heading(level=1)
+run = heading.add_run('Appendix A.2 TLS/SSL Protocol Support')
+run.bold = True
+run.font.size = Pt(14)
+heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+# Define the mappings for TLS/SSL Protocol Support
+tls_protocols = ["TLS 1.3", "TLS 1.2", "TLS 1.1", "TLS 1.0", "SSL 3.0", "SSL 2.0"]
+protocol_id_map = {
+    "TLS 1.3": "TLS1_3",
+    "TLS 1.2": "TLS1_2",
+    "TLS 1.1": "TLS1_1",
+    "TLS 1.0": "TLS1",
+    "SSL 3.0": "SSLv3",
+    "SSL 2.0": "SSLv2"
+}
+
+# Add a table for TLS/SSL Protocol Support
+table = doc.add_table(rows=0, cols=len(tls_protocols) + 1)
+table.alignment = WD_TABLE_ALIGNMENT.CENTER
+table.style = 'Table Grid'
+
+# Add header row for protocols
+header_cells = table.add_row().cells
+header_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
+for i, protocol in enumerate(tls_protocols, 1):
+    header_run = header_cells[i].paragraphs[0].add_run(protocol)
+    header_cells[i].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+    header_run.bold = True
+    header_run.font.size = Pt(12)
+    header_run.font.color.rgb = RGBColor(255, 255, 255)
+    set_cell_color(header_cells[i], '4F81BD')
+
+# Add data row for protocol support
+data_cells = table.add_row().cells
+data_cells[0].paragraphs[0].add_run(ip_port_value).bold = True
+for i, protocol in enumerate(tls_protocols, 1):
+    item = next((item for item in json_data if item['id'] == protocol_id_map[protocol]), None)
+    if item:
+        finding = item['finding']
+        severity = item['severity']
+        if finding == "offered":
+            value = "Yes"
+        else:
+            value = "No"
+        # Set background color based on severity
+        bg_color = severity_color_map.get(severity, "FFFFFF")
+    else:
+        value = "Not Available"
+        bg_color = "FFFFFF"
+    cell_run = data_cells[i].paragraphs[0].add_run(value)
+    cell_run.font.size = Pt(10)
+    set_cell_color(data_cells[i], bg_color)
+
 # Save the document
 doc.save('Certificate_Details_Report.docx')
+
