@@ -32,7 +32,12 @@ If you want to add security to it look at nginx module [basic_auth](http://nginx
 
 You still have to autostart the script on boot. This can be done manually in a screen.
 
-## Docker
+## Executing CsvConverter.py
+Inorder to receive the CSV output of the testssl.sh output, you have to execute the command on terminal/Ubuntu server which generates a csv file in the root folder under output_csv folder. The JSON output of testssl.sh will be converted into csv file which can later be used based on the users requirement.  
 
-Markus Kraus ([@vMarkus_K](https://twitter.com/vMarkus_K)) created a [Docker
-Image](https://hub.docker.com/r/mycloudrevolution/testssl-webfrontend/).
+'python3 CsvConverter.py'
+
+## Executing ReportingA_1.py.
+For generating the report based on the output of the testssl.sh, you have to run ReportingA_1.py which generates a word document outlining the important factors based on the severity which were encoded by the color. 
+
+'python3 ReportingA_1.py'
